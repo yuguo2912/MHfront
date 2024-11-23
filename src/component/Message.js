@@ -70,15 +70,17 @@ function Message() {
           </select>
           {/* Chargement des messages */}
           {isLoading? (
-            <p>Chargement des messages </p>
-          ) : (
+            <p>Chargement des messages 
             <ul>
-          {messages.map((message) => (
-            <li key={message.id}>
-              {message.text}{" "}
-            </li>
-          ))}
-          </ul> 
+            {messages.map((message) => (
+              <li key={message.id_receiver}>
+                {message.text}{" "}
+              </li>
+            ))}
+            </ul> 
+            </p>
+          ) : (
+            {removeMessage}
         )}
         </div>
       </div>
