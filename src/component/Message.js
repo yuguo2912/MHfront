@@ -68,22 +68,6 @@ function Message() {
               </option>
             ))}
           </select>
-
-          {/* Afficher un indicateur de chargement */}
-          {isLoading ? (
-            <p>Chargement des messages...</p>
-          ) : (
-            <ul>
-              {messages.map((message) => (
-                <li key={message.id}>
-                  {message.text}{" "}
-                  <button onClick={() => removeMessage(message.id)}>
-                    Supprimer
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </div>
