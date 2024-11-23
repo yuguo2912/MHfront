@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const options = [
-  { label: "Hugo", value: "hugo" },
-  { label: "Matthieu", value: "matthieu" },
+  { label: "Hugo", value: "1" },
+  { label: "Matthieu", value: "2" },
 ];
 
 function Message() {
   const [messages, setMessages] = useState([]); // Liste des messages
   const [isLoading, setIsLoading] = useState(false); // Indicateur de chargement
-  const [selectedUser, setSelectedUser] = useState("hugo"); // Utilisateur sélectionné
+  const [selectedUser, setSelectedUser] = useState("1"); // Utilisateur sélectionné
 
   // Fonction pour supprimer un message
   const removeMessage = (id) => {
@@ -25,7 +25,7 @@ function Message() {
   // Fonction pour récupérer les messages depuis une API
   const fetchMessages = () => {
     setIsLoading(true); // Indiquer que nous sommes en train de charger
-    fetch("/api/messages") // Assurez-vous que l'URL de l'API est correcte
+    fetch("/api/messages?id="+selectedUser) // Assurez-vous que l'URL de l'API est correcte
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des messages");
@@ -61,7 +61,11 @@ function Message() {
           <h5 className="card-title">Liste des messages</h5>
 
           {/* Liste déroulante pour sélectionner un utilisateur */}
+          <button onClick={fetchMessages} className="btn btn-primary mb-3">
+            Charger les messages
+          </button>
           <select value={selectedUser} onChange={handleChange}>
+
             {options.map((option) => (
               <option value={option.value}>
                 {option.label}
@@ -69,8 +73,7 @@ function Message() {
             ))}
           </select>
           {/* Chargement des messages */}
-          {isLoading? (
-            <p>Chargement des messages 
+          {
             <ul>
             {messages.map((message) => (
               <li key={message.id_receiver}>
@@ -78,10 +81,8 @@ function Message() {
               </li>
             ))}
             </ul> 
-            </p>
-          ) : (
-            {removeMessage}
-        )}
+          
+        }
         </div>
       </div>
     </div>
