@@ -1,11 +1,28 @@
 
 import React, { useEffect, useState } from 'react';
 
+
+const choix = [
+  { label: "Hugo", value: "1" },
+  { label: "Matthieu", value: "2" },
+  { label: "Juju", value: "3"},
+];
+
+const choix2 = [
+  { label: "Hugo", value: "1" },
+  { label: "Matthieu", value: "2" },
+  { label: "Juju", value: "3"},
+];
+
+
+
 function PostMessage() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [messageObject, setMessageObject] = useState('');
   const [messageId, setMessageId] = useState(''); // Champ pour l'objet du message
+  const [selectUserSender, setSelectUserSender] = useState("1");
+  const [selectUserReceiver, setSelectUserReceiver] = useState("2");
 
   // Fonction pour charger les messages lors du premier rendu du composant
   useEffect(() => {
@@ -20,8 +37,8 @@ function PostMessage() {
     const messageData = {
       message_object: messageObject,
       message_body: newMessage,
-      id_sender: 1,  // Remplacez par une valeur appropriée si nécessaire
-      id_recever: 2  // Remplacez par une valeur appropriée si nécessaire
+      idSender: choix.value,  // Remplacez par une valeur appropriée si nécessaire
+      idRecever: choix.value  // Remplacez par une valeur appropriée si nécessaire
     };
 
     fetch('/api/messages', {
@@ -68,8 +85,21 @@ function PostMessage() {
             className="form-control mb-2" 
           />
 
-
-          <button onClick={handleSendMessage} className="btn btn-primary mb-3">
+            <select value={selectUserSender} onChange={handleSendMessage} >
+            {choix.map((option,index) => (
+              <option value={option.value} key= {index}>
+                {option.label}
+              </option>
+            ))}
+            </select>
+            <select value={selectUserReceiver} onChange={handleSendMessage} >
+            {choix2.map((option, index) => (
+              <option value={option.value} key ={index}>
+                {option.label}
+              </option>
+            ))}
+            </select>
+            <button onClick={handleSendMessage} className="btn btn-primary mb-3">
             Envoyer
           </button>
         </div>

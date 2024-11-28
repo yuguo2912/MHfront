@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const options = [
   { label: "Hugo", value: "1" },
   { label: "Matthieu", value: "2" },
+  { label: "Juju", value: "3"},
 ];
 
 function Message() {
@@ -25,7 +26,7 @@ function Message() {
   // Fonction pour récupérer les messages depuis une API
   const fetchMessages = () => {
     setIsLoading(true); // Indiquer que nous sommes en train de charger
-    fetch("/api/messages?id="+selectedUser) // Assurez-vous que l'URL de l'API est correcte
+    fetch("/api/messages/filter?id="+selectedUser) // Assurez-vous que l'URL de l'API est correcte
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des messages");
@@ -76,8 +77,8 @@ function Message() {
           {
             <ul>
             {messages.map((message) => (
-              <li key={message.id_receiver}>
-                {message.text}{" "}
+              <li key={message.idRecever}>
+                {message.message_body}{" "}
               </li>
             ))}
             </ul> 
