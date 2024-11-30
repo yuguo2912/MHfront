@@ -82,7 +82,6 @@ function Message() {
               </li>
             ))}
             </ul> 
-          
         }
         </div>
       </div>

@@ -31,14 +31,21 @@ function PostMessage() {
       .then(data => setMessages(data))
       .catch(error => console.error('Error fetching messages:', error));
   }, []);
-
+  const handleChange1 = (e) => {
+    console.log("User Selected!!");
+    setSelectUserSender(e.target.value); // Utiliser `setSelectedUser` pour les composants fonctionnels
+  };
+  const handleChange2 = (e) => {
+    console.log("User Selected!!");
+    selectUserReceiver(e.target.value); // Utiliser `setSelectedUser` pour les composants fonctionnels
+  };
   // Fonction pour gérer l'envoi du message
   const handleSendMessage = () => {
     const messageData = {
       message_object: messageObject,
       message_body: newMessage,
-      idSender: choix.value,  // Remplacez par une valeur appropriée si nécessaire
-      idRecever: choix.value  // Remplacez par une valeur appropriée si nécessaire
+      idSender: selectUserSender,  // Remplacez par une valeur appropriée si nécessaire
+      idRecever: selectUserReceiver // Remplacez par une valeur appropriée si nécessaire
     };
 
     fetch('/api/messages', {
@@ -85,16 +92,16 @@ function PostMessage() {
             className="form-control mb-2" 
           />
 
-            <select value={selectUserSender} onChange={handleSendMessage} >
-            {choix.map((option,index) => (
-              <option value={option.value} key= {index}>
+            <select value={selectUserSender} onChange={handleChange1} >
+            {choix.map((option) => (
+              <option value={option.value}>
                 {option.label}
               </option>
             ))}
             </select>
-            <select value={selectUserReceiver} onChange={handleSendMessage} >
-            {choix2.map((option, index) => (
-              <option value={option.value} key ={index}>
+            <select value={selectUserReceiver} onChange={handleChange2} >
+            {choix2.map((option) => (
+              <option value={option.value}>
                 {option.label}
               </option>
             ))}
