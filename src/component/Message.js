@@ -40,7 +40,7 @@ function Message() {
       .catch((error) => {
         console.error("Erreur lors de la récupération des messages:", error);
         setIsLoading(false); // Fin du chargement même en cas d'erreur
-      });
+      }); 
   };
 
   // Utiliser `useEffect` pour appeler l'API régulièrement
@@ -52,7 +52,21 @@ function Message() {
       fetchMessages();
     }, 5000); // Toutes les 5 secondes
 
-    return () => clearInterval(intervalId); // Nettoyer l'intervalle lors de la désinstallation du composant
+    return () => clearInterval(intervalId); 
+    // Nettoyer l'intervalle lors de la désinstallation du composant
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const fetchedMessages = querySnapshot.docs.map((doc) => {
+        let msg = doc.data();
+        msg.type =
+          msg.senderId === auth.currentUser.uid
+            ? "sentMessage"
+            : "receivedMessage";
+        return msg;
+      });
+      setMessages(fetchMessages);
+      // Note: Don't update the last message here
+    });
+    return () => unsubscribe();
   }, []);
 
   return (
