@@ -53,22 +53,9 @@ function Message() {
     }, 5000); // Toutes les 5 secondes
 
     return () => clearInterval(intervalId); 
-    // Nettoyer l'intervalle lors de la désinstallation du composant
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fetchedMessages = querySnapshot.docs.map((doc) => {
-        let msg = doc.data();
-        msg.type =
-          msg.senderId === auth.currentUser.uid
-            ? "sentMessage"
-            : "receivedMessage";
-        return msg;
-      });
-      setMessages(fetchMessages);
-      // Note: Don't update the last message here
-    });
-    return () => unsubscribe();
-  }, []);
+  }, [selectedUser]);
 
+  const lastTenMessage = messages.slice(-10);
   return (
     <div id="App">
       <div className="card">
@@ -90,7 +77,7 @@ function Message() {
           {/* Chargement des messages */}
           {
             <ul>
-            {messages.map((message) => (
+            {lastTenMessage.map((message) => (
               <li key={message.idRecever}>
                 {message.message_body}{" "}
               </li>
